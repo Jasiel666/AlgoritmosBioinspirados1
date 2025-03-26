@@ -1,4 +1,5 @@
 import streamlit as st
+from models.genetics import improved_genetic_algorithmm
 
 # Inicializar el estado de la página si no existe
 if "page" not in st.session_state:
@@ -7,7 +8,7 @@ if "page" not in st.session_state:
 # Función para cambiar de página y recargar la interfaz
 def change_page(page_name):
     st.session_state.page = page_name
-    st.rerun()  # 🔄 Nuevo método para actualizar la interfaz
+    st.rerun() 
 
 # Menú principal con botones
 if st.session_state.page == "menu":
@@ -15,7 +16,7 @@ if st.session_state.page == "menu":
     st.write("Selecciona un algoritmo para visualizar:")
 
     if st.button("Algoritmo Genético"):
-        change_page("algoritmo1")
+       improved_genetic_algorithm()
 
     if st.button("Algoritmo Recocido Simulado"):
         change_page("algoritmo2")
