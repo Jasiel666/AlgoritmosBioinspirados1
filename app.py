@@ -1,6 +1,7 @@
 # app.py
 import streamlit as st
 from models.genetics import genetic_algorithm
+from models.immune_system import immune_algorithm_cancer
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -21,19 +22,19 @@ if st.session_state.page == "menu":
     st.title("Bienvenido a la Aplicación de Algoritmos")
     st.write("Selecciona un algoritmo para visualizar:")
 
-    if st.button("Algoritmo Genético"):
+    if st.button("Algoritmo Genético", key="btn_menu_genetic"):
         st.session_state.current_algorithm = "genetic"
         change_page("algorithm")
 
-    if st.button("Algoritmo Recocido Simulado"):
+    if st.button("Algoritmo Recocido Simulado", key="btn_menu_simanneal"):
         st.session_state.current_algorithm = "simulated_annealing"
         change_page("algorithm")
 
-    if st.button("Algoritmo Colonia de Hormigas"):
+    if st.button("Algoritmo Colonia de Hormigas", key="btn_menu_ants"):
         st.session_state.current_algorithm = "ant_colony"
         change_page("algorithm")
 
-    if st.button("Algoritmo de Sistemas Inmunes"):
+    if st.button("Algoritmo de Sistemas Inmunes", key="btn_menu_immune"):
         st.session_state.current_algorithm = "immune_system"
         change_page("algorithm")
 
@@ -43,14 +44,14 @@ elif st.session_state.page == "algorithm":
         st.title("Algoritmo Genético")
         genetic_algorithm()
         
-        if st.button("Volver al Menú"):
+        if st.button("Volver al Menú", key="btn_back_genetic"):
             change_page("menu")
 
     elif st.session_state.current_algorithm == "simulated_annealing":
         st.title("Algoritmo Recocido Simulado")
         st.write("Aquí puedes poner la implementación del Algoritmo de Recocido Simulado.")
         
-        if st.button("Volver al Menú"):
+        if st.button("Volver al Menú", key="btn_back_simanneal"):
             change_page("menu")
 
     elif st.session_state.current_algorithm == "ant_colony":
@@ -58,9 +59,9 @@ elif st.session_state.page == "algorithm":
         
         # --- Configuración de parámetros ---
         st.sidebar.header("Parámetros del ACO")
-        num_hormigas = st.sidebar.slider("Número de hormigas", 5, 100, 20)
-        iteraciones = st.sidebar.slider("Iteraciones", 10, 500, 50)
-        tasa_evaporacion = st.sidebar.slider("Tasa de evaporación", 0.1, 0.9, 0.5)
+        num_hormigas = st.sidebar.slider("Número de hormigas", 5, 100, 20, key="slider_ants")
+        iteraciones = st.sidebar.slider("Iteraciones", 10, 500, 50, key="slider_iter")
+        tasa_evaporacion = st.sidebar.slider("Tasa de evaporación", 0.1, 0.9, 0.5, key="slider_evap")
         
         # --- Matriz de distancias ---
         ciudades = ["A", "B", "C", "D", "E"]
@@ -95,7 +96,7 @@ elif st.session_state.page == "algorithm":
             return [int(ciudad) for ciudad in mejor_camino], mejor_dist
         
         # --- Botón de ejecución ---
-        if st.button("Ejecutar Algoritmo"):
+        if st.button("Ejecutar Algoritmo", key="btn_run_ants"):
             with st.spinner('Optimizando ruta...'):
                 ruta_optima, distancia = hormigas_tsp(
                     distancias, 
@@ -109,9 +110,9 @@ elif st.session_state.page == "algorithm":
             
             col1, col2 = st.columns(2)
             with col1:
-                st.metric("Distancia total", f"{distancia:.2f} unidades")
+                st.metric("Distancia total", f"{distancia:.2f} unidades", key="metric_dist")
             with col2:
-                st.metric("Ruta más corta", " → ".join([ciudades[i] for i in ruta_optima]))
+                st.metric("Ruta más corta", " → ".join([ciudades[i] for i in ruta_optima]), key="metric_route")
             
             # --- Gráfico ---
             fig, ax = plt.subplots()
@@ -124,12 +125,12 @@ elif st.session_state.page == "algorithm":
                 ax.text(coords[i,0], coords[i,1], ciudad, fontsize=12)
             st.pyplot(fig)
         
-        if st.button("Volver al Menú"):
+        if st.button("Volver al Menú", key="btn_back_ants"):
             change_page("menu")
 
     elif st.session_state.current_algorithm == "immune_system":
         st.title("Algoritmo de Sistemas Inmunes")
-        st.write("Aquí puedes poner la implementación del Algoritmo de Sistemas Inmunes.")
+        immune_algorithm_cancer()
         
-        if st.button("Volver al Menú"):
+        if st.button("Volver al Menú", key="btn_back_immune"):
             change_page("menu")
