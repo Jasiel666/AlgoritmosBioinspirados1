@@ -4,9 +4,6 @@ from models.immune_system import immune_algorithm_cancer
 from models.aco_tsp import colonia_horm
 from models.simulated_annealing import simulated_annealing
 
-
-
-
 # Custom styling for buttons
 st.markdown("""
     <style>
